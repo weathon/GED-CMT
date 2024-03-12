@@ -1,5 +1,6 @@
 # GED-CMT
-Repo for MURC2024 
+Repo for Multidisciplinary Undergraduate Research Conference (MURC) 2024 
+
 
 ### Raw Experiment Results 
 [data.csv](data.csv)
