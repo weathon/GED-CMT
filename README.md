@@ -1,6 +1,8 @@
 # GED-CMT
 Repo for MURC2024 
 
+### Raw Experiment Results 
+[data.csv](data.csv)
 ### References 
 1. L. Chang, X. Feng, X. Lin, L. Qin, W. Zhang, and D. Ouyang, ‘Speeding up ged verification for graph similarity search’, in 2020 IEEE 36th International Conference on Data Engineering (ICDE), Apr. 2020, pp. 793–804. doi: 10.1109/ICDE48307.2020.00074.
 
