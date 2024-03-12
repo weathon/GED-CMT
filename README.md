@@ -3,6 +3,8 @@ Repo for MURC2024
 
 ### Raw Experiment Results 
 [data.csv](data.csv)
+### Data Visualization Notebook
+[Data_Vis.ipynb](Data_Vis.ipynb)
 ### References 
 1. L. Chang, X. Feng, X. Lin, L. Qin, W. Zhang, and D. Ouyang, ‘Speeding up ged verification for graph similarity search’, in 2020 IEEE 36th International Conference on Data Engineering (ICDE), Apr. 2020, pp. 793–804. doi: 10.1109/ICDE48307.2020.00074.
 
@@ -15,3 +17,8 @@ Repo for MURC2024
 1. Z. Abu-Aisheh, R. Raveaux, and J.-Y. Ramel, ‘A graph database repository and performance evaluation metrics for graph edit distance’, in Graph-Based Representations in Pattern Recognition, C.-L. Liu, B. Luo, W. G. Kropatsch, and J. Cheng, Eds., in Lecture Notes in Computer Science. Cham: Springer International Publishing, 2015, pp. 138–147. doi: 10.1007/978-3-319-18224-7_14.
 
 1. K. Riesen, A. Fischer, and H. Bunke, ‘Computing upper and lower bounds of graph edit distance in cubic time’, in Artificial Neural Networks in Pattern Recognition, N. El Gayar, F. Schwenker, and C. Suen, Eds., Cham: Springer International Publishing, 2014, pp. 129–140. doi: 10.1007/978-3-319-11656-3_12.
+
+### First Author Information
+[Wenqi Marshall Guo](https://www.researchgate.net/profile/Wenqi-Guo-5)
+[wg25r@student.ubc.ca](mailto:wg25r@student.ubc.ca)
+
