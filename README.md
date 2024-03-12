@@ -19,6 +19,7 @@ Repo for MURC2024
 1. K. Riesen, A. Fischer, and H. Bunke, ‘Computing upper and lower bounds of graph edit distance in cubic time’, in Artificial Neural Networks in Pattern Recognition, N. El Gayar, F. Schwenker, and C. Suen, Eds., Cham: Springer International Publishing, 2014, pp. 129–140. doi: 10.1007/978-3-319-11656-3_12.
 
 ### First Author Information
-[Wenqi Marshall Guo](https://www.researchgate.net/profile/Wenqi-Guo-5)
+[Wenqi Marshall Guo](https://www.researchgate.net/profile/Wenqi-Guo-5) 
+
 [wg25r@student.ubc.ca](mailto:wg25r@student.ubc.ca)
 
