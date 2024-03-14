@@ -24,5 +24,7 @@ Repo for Multidisciplinary Undergraduate Research Conference (MURC) 2024
 
 [wg25r@student.ubc.ca](mailto:wg25r@student.ubc.ca)
 
+### Technical Report
+[report.md](report.md)
 ### Paper 
 Coming soon
