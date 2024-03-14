@@ -18,7 +18,18 @@ Our experimentation involved building trees based on exact distances and using t
 The algorithm was tested on graph data derived from PubChem and the performance of CMT was compared to that of brute force verification.
 
 ## Results and Discussion
-![Figure 1]
+<p float="left">
+<img src="imgs/Picture1.png" alt="drawing" style="width:300px;"/>
+<img src="imgs/Picture6.png" alt="drawing" style="width:300px;"/>
+</p>
+  <p float="left">
+<img src="imgs/Picture2.png" alt="drawing" style="width:300px;"/>
+<img src="imgs/Picture3.png" alt="drawing" style="width:300px;"/>
+  </p>
+      <p float="left">
+<img src="imgs/Picture4.png" alt="drawing" style="width:300px;"/>
+<img src="imgs/Picture5.png" alt="drawing" style="width:300px;"/>
+</p>
 Results indicate that CMT does not routinely outperform brute force verification. In fact, in many cases, CMT significantly lags behind brute force in terms of speed. One possible explanation for this could be the complexity of computing not just the GED, but its Upper and Lower Bounds. Since both benchmarks pose their unique computational challenges, this surprising finding underlines the need for continuous innovation in methodologies to speed up GED computation. 
 
 ## Future Work and Limitations
