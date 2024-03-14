@@ -1,54 +1,42 @@
-### Technical Report On A Brief Performance Comparison Between A Metric Search Tree and Brute Force Verification 
-### Abstract 
+# Efficient Search in Graph Edit Distance: Metric Search Trees vs. Brute Force Verification
 
-Graph Similarity Search (GSS) plays a pivotal role in domains such as molecular and protein similarity search where the inherent structure of the problem can be represented and processed as a graph. However, the common metric employed in GSS, the Graph Edit Distance (GED), can be computationally challenging to calculate as it requires an exponential amount of time. To overcome this, a common strategy is the utilization of upper and lower bounds of GED in a Binary Metric Tree search. Our experiments contrast this approach with a brute force verification method to evaluate efficiency and accuracy. Our results indicate that the Cascading Metric Tree (CMT) used for the search does not outperform brute force verification in most cases, suggesting that even the upper and lower bounds of GED are computationally intensive to compute compared to GED verification.
+## Introduction
+Graph similarity search (GSS) plays a key role in domains such as molecular and protein similarity search[1]. Specifically, Graph Edit Distance (GED)--the measure of similarity based on the steps required to edit one graph into another--is one of the most commonly used metrics in GSS. However, the computation of exact GED traditionally requires exponential time, which can slow down the search process considerably[1]. 
 
-### Introduction
+Researchers have proposed various methodologies to speed up the GED computation process. One promising approach involves augmenting similarity searches with metric search trees, such as the Cascading Metric Tree (CMT)[3]. CMT has been shown to enhance similarity searches using different metrics, like Euclidean distance and Kendall-Tau distances[2][3]. The other popular approach is to use Brute Force (BF) search in which the computation of exact GED is replaced by a Verification process: a procedure to verify if the GED of two graphs is lower than a given threshold[1]. 
 
-Graph Similarity Search (GSS) algorithm is widely used in quantifying similarity in proteomics and molecular analysis requiring a comparison of large graph-structured databases [1]. The most representative metric in similarity search is the Graph Edit Distance (GED), a measure signifying the minimum number of graph-editing steps to transform one graph into another. These steps include insertion, deletion, or substitution of nodes and edges. Despite its ability to provide an optimal measure of similarity, GED is computationally expensive, requiring the computation of all possible transformation sequences resulting in an NP-Hard problem [1]. 
+In this study, we aim to investigate whether adapting the CMT for use with GED (using Upper and Lower Bounds of GED in place of exact GED) can outperform the simple brute force verification relayed in [1]. Our results suggest that, contrary to our initial hypothesis, CMT does not routinely outperform brute force verification strategy in most contexts.
 
-A common approach to circumvent this issue involves the use of Metric Search Trees - data structures for efficiently querying distances in space. Among these trees, the Cascading Metric Tree (CMT) has shown to increase similarity searches’ effectiveness in other metrics, such as Euclidean distance and Kendall-Tau distances [2][3]. The CMT offers the advantage of using the upper and lower bounds of GED during a binary metric tree search. This study compares the CMT approach with a brute force (BF) method that verifies whether the GED is lower than a given threshold [1]. Our study aims to provide insights into which method yields improved performance in processing GED-based searches.
+## Methodology
 
-### Methods
+Our experimentation involved building trees based on exact distances and using the Upper and Lower Bounds (UBLB) during the binary metric tree searches. In our approach:
 
-Our study implements a binary tree based on exact distances. During a search, upper and lower bounds (UBLB) of Graph Edit Distance (GED) are used to determine whether an object is added to the 'confirmed' or 'suspected' set. If the upper bound is lower than the given threshold, it is confirmed and added to the 'confirmed' set. If the lower bound is lower than the threshold, it is flagged as 'suspected.' As the UBLB may lead to false positives, namely 'suspected' objects that do not meet the threshold, a brute force verification step is implemented. This step checks whether the actual calculated GED is indeed lower than the given threshold.
+- If the upper bounds are lower than the threshold, the corresponding graph is added to a 'confirmed set'.
+- If the lower bounds are lower than the threshold, the graph is added to a second 'suspected set'.
+- A brute force verification step then examines each member of the suspected set to filter out any false positives from the UBLB search.
 
-For the evaluation of algorithms, data on the graph were extracted from PubChem. A sequence of searches based on both the CMT structure and the brute force verification algorithm were executed on this extracted set of graph data [6]. The time taken and results yielded by both methods were collected and compared to investigate the efficiency and output accuracy of each.
+The algorithm was tested on graph data derived from PubChem and the performance of CMT was compared to that of brute force verification.
 
-# Graph Similarity Search: Performance Evaluation of the Cascading Metric Tree for Graph Edit Distance Verification
+## Results and Discussion
+![Figure 1]
+Results indicate that CMT does not routinely outperform brute force verification. In fact, in many cases, CMT significantly lags behind brute force in terms of speed. One possible explanation for this could be the complexity of computing not just the GED, but its Upper and Lower Bounds. Since both benchmarks pose their unique computational challenges, this surprising finding underlines the need for continuous innovation in methodologies to speed up GED computation. 
 
-# Introduction
-Graph Similarity Search (GSS) has made significant contributions to disciplines involving structural data representation, including molecular biology, social network analysis, and image processing. Graph Edit Distance (GED), a prevalent measure in GSS, quantifies the dissimilarity between two graphs based on the minimal cost of transforming one graph into another [1]. Despite its utility, the exponential time complexity of GED computation poses significant performance challenges. Several attempts have been made to speed up GED verification, using both brute force methodologies and tree structures.
+## Future Work and Limitations
 
-This report assesses the performance of the Cascading Metric Tree (CMT), a metric search tree specifically designed to improve similarity search in various metrics [2], [3]. We investigate whether using CMT to perform GED searches is more efficient than a brute force (BF) verification process. We discuss the findings, present our conclusions, and identify future areas of inquiry.
+Our study has several limitations which indicate possible directions for future work. These include:
 
-# Methodology
-In building our CMT, we began by constructing the tree based on exact distances to ensure the most accurate representation. We then used upper and lower bounds (UBLB) of GED during the binary search process in the metric tree. If the upper bounds were lower than the threshold distance, the corresponding graph was added to the confirmed set. If the lower bounds were lower than the threshold but the upper bounds were not, the graph was added to a suspected set. Finally, a BF verification process was applied to the suspected set to filter out false positives resulting from the UBLB search.
+1. **Hyper-parameters**: Various hyper-parameters, like the iterations of the UBLB algorithm, have a bearing on the results. Future research could fine-tune these to yield more optimized results.
+2. **Search Space**: Our research was conducted in a limited search space. Investigations in other search scenarios might yield different findings.
+3. **Data Sampling**: The graph data used was only sourced from PubChem, which could introduce sample bias. Future studies using data from varying sources might enhance the generalizability. 
+4. **Small Molecules**: Our dataset lacked a significant number of small molecules. Given the positive correlation between CMT performance and smaller graph size, this represents a potential direction for future work.
+5. **Optimization**: Our implementation of CMT was not fully optimized. Enhancing the implementation might improve its performance.
 
-Our empirical evaluation was based on graph data derived from PubChem, a database of biological activities of small molecules. We then compared the performance of the CMT and BF methods. Our performance metrics include computation speed and accuracy in determining the set of graphs within the given threshold distance from the query graph.
+## Conclusion
 
-# Results and Discussion
-Our results indicate that the CMT method does not consistently outperform the BF verification. In fact, we observed that in many instances, CMT had a slower processing time compared to the brute force method. 
+This study investigated the performance of Cascading Metric Trees in GED computation for graph similarity search in comparison to brute force verification. Surprisingly, our results showed that despite its proven efficacy in other metrics, CMT did not routinely outperform brute force verification in computing GED. These findings highlight the need for continued exploration of methods for speeding up GED computation and verification, with a particular focus on optimizing the computation of GED upper and lower bounds and investigating the performance of these methods on a wider range of datasets and search spaces.
 
-Given the exponential time complexity of GED computation, our initial hypothesis was that using the more efficient CMT structure would lead to superior search performance. However, we found that even the computation of the upper and lower bounds of GED access times remained quite high. This limitation often led to the CMT process being slower than the simple brute force verification approach.
 
-# Conclusion
-Our findings suggest that while metric search trees, particularly the CMT, can improve similarity searches in several results such as the Euclidean distance and Kendall-Tau distances, this is not the case for GED. The exponential time complexity of determining GED poses significant performance challenges that applying the CMT does not sufficiently mitigate, compared to brute force verification approaches. 
-
-# Limitations and Future Work
-The presented study has several limitations which warrant consideration. These limitations could potentially affect the conclusions made and constitute areas requiring further research:
-
-1. **Tuning Hyperparameters**: Different hyperparameters may yield different results, including the iteration values for the GED upper and lower bounds algorithm. Thus, optimizing these parameters could facilitate more accurate and efficient outcomes.
-  
-2. **Limited Search Space**: Our experiments used a particular search space bound by the parameters of the PubChem graphs. Testing the algorithms in various domains may yield different results, potentially highlighting circumstances where CMT outperforms BF.
-   
-3. **Graph Complexity**: We observed better relative performance in some cases (need more tests to confirm) for CMT when graph size decreased and dataset size increased. However, our dataset contains a limited number of small molecules, exposing a "blank space" in our experimentation. Further study should examine this space for potential conditions where CMT provides superior efficiency.
-   
-4. **Performance Optimization**: We did not iterate any performance optimization or tuning on our CMT implementation that could potentially improve the overall performance.
-
-In summary, while our initial results are not promising for the use of CMT in speeding up GED verification, further studies in different scenarios and with optimized hyperparameters may still yield better performance outcomes. The high computational complexity of GED remains a significant challenge, and more research is required to devise efficient similarity search methodologies.
-
-### ACKNOWLEDGEMENT 
+## ACKNOWLEDGEMENT 
 Part of the computation for this work was performed on
 the high-performance computing infrastructure provided
 by Research Support Solutions and in part by the National
@@ -61,7 +49,7 @@ produced by ChatGPT based on an author-written outline and proofread by
 the author. 
 
 
-# References
+## References
 [1] L. Chang, X. Feng, X. Lin, L. Qin, W. Zhang, and D. Ouyang, ‘Speeding up ged verification for graph similarity search’, in 2020 IEEE 36th International Conference on Data Engineering (ICDE), Apr. 2020, pp. 793–804. doi: 10.1109/ICDE48307.2020.00074.
 
 [2] W. Guo and J. Uhlmann, ‘Metric search for rank list compatibility matching with applications’. arXiv, Aug. 10, 2023. doi: 10.48550/arXiv.2303.11174.
