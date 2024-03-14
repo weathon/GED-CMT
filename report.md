@@ -1,21 +1,27 @@
-# Efficient Search in Graph Edit Distance: Metric Search Trees vs. Brute Force Verification
+![image](https://github.com/weathon/GED-CMT/assets/41298844/25fedb13-acbf-4b82-90af-02a34bd849f6)# Efficient Search in Graph Edit Distance: Metric Search Trees vs. Brute Force Verification
 
 ## Introduction
 Graph similarity search (GSS) plays a key role in domains such as molecular and protein similarity search[1]. Specifically, Graph Edit Distance (GED)--the measure of similarity based on the steps required to edit one graph into another--is one of the most commonly used metrics in GSS. However, the computation of exact GED traditionally requires exponential time, which can slow down the search process considerably[1]. 
 
-Researchers have proposed various methodologies to speed up the GED computation process. One promising approach involves augmenting similarity searches with metric search trees, such as the Cascading Metric Tree (CMT)[3]. CMT has been shown to enhance similarity searches using different metrics, like Euclidean distance and Kendall-Tau distances[2][3]. The other popular approach is to use Brute Force (BF) search in which the computation of exact GED is replaced by a Verification process: a procedure to verify if the GED of two graphs is lower than a given threshold[1]. 
+Previous researchers have proposed various methods to speed up the GED-based GSS process. One of them is a brute-force-based method that first uses lower bounds to filter the graphs in the database (only the graphs with lower bounds less than the threshold will be kept) and then verification in which the computation of exact GED is replaced by a procedure to verify if the GED of two graphs is lower than a given threshold[1]. 
 
-In this study, we aim to investigate whether adapting the CMT for use with GED (using Upper and Lower Bounds of GED in place of exact GED) can outperform the simple brute force verification relayed in [1]. Our results suggest that, contrary to our initial hypothesis, CMT does not routinely outperform brute force verification strategy in most contexts.
+Another promising approach involves augmenting similarity searches with metric search trees, such as the Cascading Metric Tree (CMT)[3]. CMT has been shown to enhance similarity searches using different metrics, like Euclidean distance[3] and Kendall-Tau distances[2]. In this study, we aim to investigate whether adapting the CMT for use with GED using upper-and-lower bounds (UBLB) can outperform the simple brute force verification relayed in [1]. Our results suggest that, contrary to our initial hypothesis, CMT does not routinely outperform brute force verification strategy in most contexts.
 
 ## Methodology
 
-Our experimentation involved building trees based on exact distances and using the Upper and Lower Bounds (UBLB) during the binary metric tree searches. In our approach:
+As mentioned previously, exact GED is extremely hard to compute, this leads to the use of UBLB in the querying process of the algorithm. However, since the tree will be pre-built only once, to enable more effective pruning, the exact distance calculation is still employed during the tree's construction phase.
 
-- If the upper bounds are lower than the threshold, the corresponding graph is added to a 'confirmed set'.
-- If the lower bounds are lower than the threshold, the graph is added to a second 'suspected set'.
+Our query algorithm could be described as follows: 
+- Two empty answer sets will be prepared, 'confirmed set' and 'suspected set'
+- The UBLB information is used to prune the search tree with a similar process in [3].
+- If the upper bonds of the largest distance in a subtree are less than the threshold, all the graphs of the subtree will be added to the confirmed set. 
+- When it reaches the leaf nodes:
+  - If the upper bounds are lower than the threshold, the corresponding graph is added to the confirmed set.
+  - If the lower bounds are lower than the threshold, the graph is added to the suspected set.
 - A brute force verification step then examines each member of the suspected set to filter out any false positives from the UBLB search.
 
-The algorithm was tested on graph data derived from PubChem and the performance of CMT was compared to that of brute force verification.
+We tested our implementation on Euclidean distance to debug and ensure it is working as intended. Then, 
+the algorithm was tested on graph data derived from PubChem and the performance of CMT was compared to that of brute force verification.
 
 ## Results and Discussion
 <p float="left">
@@ -30,17 +36,23 @@ The algorithm was tested on graph data derived from PubChem and the performance 
 <img src="imgs/Picture4.png" alt="drawing" style="width:300px;"/>
 <img src="imgs/Picture5.png" alt="drawing" style="width:300px;"/>
 </p>
-Results indicate that CMT does not routinely outperform brute force verification. In fact, in many cases, CMT significantly lags behind brute force in terms of speed. One possible explanation for this could be the complexity of computing not just the GED, but its Upper and Lower Bounds. Since both benchmarks pose their unique computational challenges, this surprising finding underlines the need for continuous innovation in methodologies to speed up GED computation. 
+
+Results indicate that CMT does not routinely outperform brute force verification. In fact, in many cases, CMT significantly lags behind brute force in terms of speed. One possible explanation for this could be even for UBLB of the GED, the computation is still expensive. On the other hand, the verification could be done very fast with a small query radius (which is usually the case for practical applications). This surprising finding underlines the need for continuous innovation in methodologies to speed up GED computation. 
 
 ## Future Work and Limitations
 
-Our study has several limitations which indicate possible directions for future work. These include:
+Our study is a preliminary investigation of the relative performance between tree search strategies like CMT and brute force verification and it has several limitations which indicate possible directions for future work. These include:
 
-1. **Hyper-parameters**: Various hyper-parameters, like the iterations of the UBLB algorithm, have a bearing on the results. Future research could fine-tune these to yield more optimized results.
-2. **Search Space**: Our research was conducted in a limited search space. Investigations in other search scenarios might yield different findings.
-3. **Data Sampling**: The graph data used was only sourced from PubChem, which could introduce sample bias. Future studies using data from varying sources might enhance the generalizability. 
-4. **Small Molecules**: Our dataset lacked a significant number of small molecules. Given the positive correlation between CMT performance and smaller graph size, this represents a potential direction for future work.
-5. **Optimization**: Our implementation of CMT was not fully optimized. Enhancing the implementation might improve its performance.
+There are different hyper-parameters that will affect the result such as the iterations of the upper and lower bounds algorithm. Different hyper-parameters might yield different results. 
+
+We only tested the algorithm in a very limited search space. The dataset size could largely limit the performance of CMT. 
+
+We only used the graph data from PubChem, there might be a bias in the dataset and the result could be different on other datasets. 
+
+The structure of an efficient search tree typically leads to better relative performance with larger datasets, a trend partially confirmed by our study. At the same time, our research also suggests that smaller graphs may deliver better relative performance. However, this is a “blank space” in our dataset: we do not have many small molecules. Examining this space might be valuable to find potential space where CMT is more efficient. 
+
+We did not optimize our implementation of the CMT, by optimizing it the performance could be improved.
+
 
 ## Conclusion
 
@@ -53,11 +65,12 @@ the high-performance computing infrastructure provided
 by Research Support Solutions and in part by the National
 Science Foundation under grant number CNS-1429294 at
 the University of Missouri, Columbia MO.
-DOI: https://doi.org/10.32469/10355/69802
+DOI: https://doi.org/10.32469/10355/69802 
+
 OpenAI ChatGPT is used as an aid in this project such as
 brainstorming, language refining, etc. This tech report is 
-produced by ChatGPT based on an author-written outline and proofread by 
-the author. 
+produced by ChatGPT based on an author-written outline and proofread
+and largely edited by the author. 
 
 
 ## References
