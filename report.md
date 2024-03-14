@@ -1,5 +1,11 @@
 # Efficient Search in Graph Edit Distance: Metric Search Trees vs. Brute Force Verification
 
+Technical Report for Multidisciplinary Undergraduate Research Conference (MURC) 2024.
+| Author 1  | Author 2   |
+|---|---|
+| Wenqi Marshall Guo  |  Jeffrey Uhlmann | 
+| University of British Columbia  | University of Missouri  | 
+| Department of CMPS  | Department of EECS  | 
 ## Introduction
 Graph similarity search (GSS) plays a key role in domains such as molecular and protein similarity search[1]. Specifically, Graph Edit Distance (GED)--the measure of similarity based on the steps required to edit one graph into another--is one of the most commonly used metrics in GSS. However, the computation of exact GED traditionally requires exponential time, which can slow down the search process considerably[1]. 
 
